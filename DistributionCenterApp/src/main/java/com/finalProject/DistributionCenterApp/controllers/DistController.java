@@ -2,6 +2,7 @@ package com.finalProject.DistributionCenterApp.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 import com.finalProject.DistributionCenterApp.models.Item;
+import com.finalProject.DistributionCenterApp.models.DistributionCenter;
 import com.finalProject.DistributionCenterApp.repository.DistributionCenterRepository;
 import com.finalProject.DistributionCenterApp.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/distributionCenters")
-public class DistributionCenterController {
+public class DistController {
     @Autowired
     private DistributionCenterRepository distributionCenterRepository;
     @Autowired
@@ -26,7 +27,7 @@ public class DistributionCenterController {
             @PathVariable Long id,
             @RequestBody Item item
     ) {
-        DistributionCenterController center = distributionCenterRepository.findById(id)
+        DistributionCenter center = distributionCenterRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Distribution Center not found with id: " + id));
 
 
@@ -45,7 +46,7 @@ public class DistributionCenterController {
             @PathVariable Long id,
             @PathVariable Long itemId
     ) {
-        DistributionCenterController center = distributionCenterRepository.findById(id)
+        DistributionCenter center = distributionCenterRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Distribution Center not found with id: " + id));
 
         //logic loading
@@ -55,7 +56,7 @@ public class DistributionCenterController {
 
     //All Distribution center
     @GetMapping
-    public List<DistributionCenterController> getAllCenters() {
+    public List<DistributionCenter> getAllCenters() {
         return distributionCenterRepository.findAll();
     }
 

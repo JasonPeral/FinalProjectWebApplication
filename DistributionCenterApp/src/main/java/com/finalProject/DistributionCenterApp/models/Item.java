@@ -1,6 +1,5 @@
 package com.finalProject.DistributionCenterApp.models;
 
-import com.finalProject.DistributionCenterApp.controllers.DistributionCenterController;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,9 +17,9 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "distribution_center_id")
-    private DistributionCenterController distributionCenter;
+    private DistributionCenter distributionCenter;
 
-    public void setDistributionCenter(DistributionCenterController distributionCenter) {
+    public void setDistributionCenter(DistributionCenter distributionCenter) {
         this.distributionCenter = distributionCenter;
     }
 
