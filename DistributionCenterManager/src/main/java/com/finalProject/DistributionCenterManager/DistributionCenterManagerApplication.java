@@ -1,13 +1,16 @@
 package com.finalProject.DistributionCenterManager;
 
+import com.finalProject.DistributionCenterManager.config.RsaKeyProperties;
 import com.finalProject.DistributionCenterManager.models.Store;
 import com.finalProject.DistributionCenterManager.models.enums.Brand;
 import com.finalProject.DistributionCenterManager.repository.StoreRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+@EnableConfigurationProperties(RsaKeyProperties.class)
 @SpringBootApplication
 public class DistributionCenterManagerApplication {
 
