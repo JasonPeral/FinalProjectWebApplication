@@ -1,0 +1,9 @@
+spring:
+  profiles: qa
+  datasource:
+    port: 5432
+    username: postgres
+    password: password
+    host: localhost
+    databaseName: webfinal
+    jdbc-url: jdbc:postgresql://localhost:5432/webfinal
