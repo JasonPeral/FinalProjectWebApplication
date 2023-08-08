@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requested Items</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Warehouse Location</h5>
+                    <p class="card-text">Latitude: 43.772094</p>
+                    <p class="card-text">Longitude: -79.400279</p>
+                    <p class="card-text">Location: Toronto Wearhouse</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h1 class="mb-4">Requested Items</h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Quantity</th>
+                    <th>Distribution Centers</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${requestedItems}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.brand}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="dc : ${item.distributionCenter}">
+                                <span th:text="${dc.name}"></span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

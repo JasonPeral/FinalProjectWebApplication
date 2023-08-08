@@ -1,5 +1,6 @@
 package com.finalProject.DistributionCenterApp.controllers;
 
+import com.finalProject.DistributionCenterApp.models.Item.Brand;
 import org.springframework.web.bind.annotation.RestController;
 import com.finalProject.DistributionCenterApp.models.Item;
 import com.finalProject.DistributionCenterApp.models.DistributionCenter;
@@ -63,7 +64,7 @@ public class DistController {
     // Request item by brand and name
     @GetMapping("/items")
     public List<Item> getItemsByBrandAndName(
-            @RequestParam String brand,
+            @RequestParam Brand brand,
             @RequestParam String name
     ) {
         return itemRepository.findByBrandAndName(brand, name);
