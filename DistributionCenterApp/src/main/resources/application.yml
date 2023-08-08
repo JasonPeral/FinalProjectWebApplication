@@ -1,6 +1,16 @@
+<<<<<<< HEAD
 #spring:
 #  datasource:
 #    url: jdbc:h2:mem:tekkenreborn
 #    generate-unique-name: false
 #server:
 #  port: 8081
+=======
+spring:
+  config:
+    activate:
+      on-profile: qa
+
+server:
+  port: 8081
+>>>>>>> 7d24484faabce6f3ab60dd74a24e2b3de2652219
