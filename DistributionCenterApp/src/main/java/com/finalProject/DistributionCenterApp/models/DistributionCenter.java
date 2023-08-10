@@ -1,5 +1,6 @@
 package com.finalProject.DistributionCenterApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,12 @@ public class DistributionCenter {
     private double latitude;
     private double longitude;
     @OneToMany(mappedBy = "distributionCenter")
+    @JsonIgnore
     private List<Item> items;
+
+
+
+
 
 
 

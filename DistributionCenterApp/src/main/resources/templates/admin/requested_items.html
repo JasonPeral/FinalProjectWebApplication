@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Requested Items</title>
-    <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -21,7 +20,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <h1 class="mb-4">Requested Items</h1>
+            <h1 class="mb-4">Nearest Distribution Center</h1>
 
             <table class="table">
                 <thead>
@@ -30,7 +29,7 @@
                     <th>Name</th>
                     <th>Brand</th>
                     <th>Quantity</th>
-                    <th>Distribution Centers</th>
+                    <th>Distribution Center</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,8 +48,20 @@
                 </tr>
                 </tbody>
             </table>
+
+            <!-- Replenish Form -->
+            <form th:action="@{/admin/replenishStock}" method="post">
+                <h2>Replenish Stock</h2>
+                <input type="hidden" name="itemId" th:if="${requestedItems.size() > 0}" th:value="${requestedItems[0].id}" />
+                <div class="form-group">
+                    <label for="quantity">Quantity to Replenish:</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Replenish</button>
+            </form>
         </div>
     </div>
 </div>
 </body>
 </html>
+

@@ -19,7 +19,7 @@ public class Item {
     private Long id;
 
     private String name;
-    @Enumerated(EnumType.STRING) // Store the enum as a string in the database
+    @Enumerated(EnumType.STRING)
     private Brand brand;
     private int quantity;
 

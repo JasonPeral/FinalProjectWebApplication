@@ -1,9 +1,8 @@
 package com.finalProject.DistributionCenterApp.controllers;
 
-import com.finalProject.DistributionCenterApp.models.Item.Brand;
-import org.springframework.web.bind.annotation.RestController;
-import com.finalProject.DistributionCenterApp.models.Item;
 import com.finalProject.DistributionCenterApp.models.DistributionCenter;
+import com.finalProject.DistributionCenterApp.models.Item;
+import com.finalProject.DistributionCenterApp.models.Item.Brand;
 import com.finalProject.DistributionCenterApp.repository.DistributionCenterRepository;
 import com.finalProject.DistributionCenterApp.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/distributionCenters")
 public class DistController {
+
     @Autowired
     private DistributionCenterRepository distributionCenterRepository;
+
     @Autowired
     private ItemRepository itemRepository;
 
-    //ADD
     @PostMapping("/{id}/items")
     public ResponseEntity<String> addItemToCenter(
             @PathVariable Long id,
@@ -31,42 +31,47 @@ public class DistController {
         DistributionCenter center = distributionCenterRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Distribution Center not found with id: " + id));
 
-
-        //item to the right distribution center
         item.setDistributionCenter(center);
-
-        //saving
         itemRepository.save(item);
-        //or log.info really could be interchangable reponseEntity.ok will show a message on the client side
+
         return ResponseEntity.ok("Item added to distribution center.");
     }
 
-    //DELETE ITEM
     @DeleteMapping("/{id}/items/{itemId}")
     public ResponseEntity<String> deleteItemFromCenter(
             @PathVariable Long id,
             @PathVariable Long itemId
     ) {
-        DistributionCenter center = distributionCenterRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Distribution Center not found with id: " + id));
-
-        //logic loading
+        // Similar logic as above for finding the distribution center
+        // and deleting the item
 
         return ResponseEntity.ok("Item deleted from distribution center.");
     }
 
-    //All Distribution center
     @GetMapping
     public List<DistributionCenter> getAllCenters() {
         return distributionCenterRepository.findAll();
     }
 
-    // Request item by brand and name
+    @GetMapping("/{id}")
+    public ResponseEntity<DistributionCenter> getCenterById(@PathVariable Long id) {
+        DistributionCenter center = distributionCenterRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Distribution Center not found with id: " + id));
+
+        return ResponseEntity.ok(center);
+    }
+
     @GetMapping("/items")
     public List<Item> getItemsByBrandAndName(
-            @RequestParam Brand brand,
+            @RequestParam String brand,
             @RequestParam String name
     ) {
-        return itemRepository.findByBrandAndName(brand, name);
+        Brand brandEnum = Brand.valueOf(brand); // Converting String to Brand enum Maybe its easier to use later like this
+        List<Item> items = itemRepository.findByBrandAndName(brandEnum, name);
+        return items;
     }
+
+
+
 }
+

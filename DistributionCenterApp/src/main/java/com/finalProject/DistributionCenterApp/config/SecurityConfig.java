@@ -12,13 +12,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 
 @Configuration
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig{
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,29 +40,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests()
-                .requestMatchers(toH2Console()).permitAll()
-//                .requestMatchers("/design", "/fighterlist")
-//                .hasRole("USER")
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .and()
-                .logout()
-                .logoutSuccessUrl("/logout")
-
-                // Make H2-Console non-secured; for debug purposes
-                // Allow pages to be loaded in frames from the same origin; needed for
-                // H2-Console
-                .and()
-                .headers()
-                .frameOptions();
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(toH2Console()).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/admin/distribution")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/admin/requested_items")).hasRole("ADMIN")
+                        .anyRequest().permitAll()
+                )
+                .formLogin(login ->
+                        login
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/admin/distribution", true)
+                )
+                .logout(logout ->
+                        logout
+                                .logoutSuccessUrl("/logout")
+                )
+                .headers(headers ->
+                        headers
+                                .frameOptions()
+                );
 
         http.csrf().disable();
         return http.build();
-
     }
 }
 
