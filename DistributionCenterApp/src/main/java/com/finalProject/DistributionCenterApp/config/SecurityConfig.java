@@ -42,6 +42,7 @@ public class SecurityConfig{
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(toH2Console()).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/h2/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/admin/distribution")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/admin/requested_items")).hasRole("ADMIN")
                         .anyRequest().permitAll()
@@ -57,7 +58,7 @@ public class SecurityConfig{
                 )
                 .headers(headers ->
                         headers
-                                .frameOptions()
+                                .frameOptions().disable()
                 );
 
         http.csrf().disable();
