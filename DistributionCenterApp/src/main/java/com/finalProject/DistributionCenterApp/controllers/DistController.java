@@ -42,11 +42,25 @@ public class DistController {
             @PathVariable Long id,
             @PathVariable Long itemId
     ) {
-        // Similar logic as above for finding the distribution center
-        // and deleting the item
+        DistributionCenter center = distributionCenterRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Distribution Center not found with id: " + id));
 
-        return ResponseEntity.ok("Item deleted from distribution center.");
+        Item itemToDelete = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Item not found with id: " + itemId));
+
+        if (itemToDelete.getDistributionCenter() != null && itemToDelete.getDistributionCenter().equals(center)) {
+            center.getItems().remove(itemToDelete);
+            itemToDelete.setDistributionCenter(null);
+
+            distributionCenterRepository.save(center);
+            itemRepository.save(itemToDelete);
+
+            return ResponseEntity.ok("Item deleted from distribution center.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Item is not associated with the specified distribution center.");
+        }
     }
+
 
     @GetMapping
     public List<DistributionCenter> getAllCenters() {
