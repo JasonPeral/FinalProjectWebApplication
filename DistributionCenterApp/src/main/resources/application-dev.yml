@@ -1,5 +1,6 @@
 spring:
-  profiles: dev
+  profiles:
+    active: dev
   datasource:
     url: jdbc:h2:mem:clothesproj
     driverClassName: org.h2.Driver
